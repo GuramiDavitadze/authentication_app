@@ -35,7 +35,6 @@ const checkRegistrationData = async (req, res, next) => {
       `SELECT email FROM users WHERE email=($1)`,
       [email],
     );
-    console.log(result);
     if (result.rowCount > 0) {
       res.status(400).send({ message: "Email already exists" });
     }
