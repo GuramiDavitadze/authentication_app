@@ -1,17 +1,15 @@
 import { UserModel } from "../models/authModels.js";
-import bcrypt from "bcrypt";
+import { comparePasswords, hashPassword } from "../utils/passwordHelper.js";
 
 const createUserController = async (req, res) => {
-  const saltRounds = 10;
   const { firstname, lastname, email, password, age } = req.body;
-
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const hashedPassword = await hashPassword(password);
 
   const userData = {
     firstname,
     lastname,
     email,
-    password:hashedPassword,
+    password: hashedPassword,
     age,
   };
   const result = await UserModel.createUser(userData);
@@ -20,4 +18,13 @@ const createUserController = async (req, res) => {
     .send({ message: "User created successfully!", data: result.rows[0] });
 };
 
-export { createUserController };
+const findByEmailController = async (req, res) => {
+  const { email, password } = req.body;
+
+  const result = await UserModel.findByEmail(email);
+  const hashedPassword = result.rows[0].password;
+  const isSamePassword = await comparePasswords(password, hashedPassword);
+  console.log("RESULT ===", isSamePassword);
+};
+
+export { createUserController, findByEmailController };

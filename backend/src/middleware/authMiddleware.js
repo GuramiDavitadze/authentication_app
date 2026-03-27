@@ -1,4 +1,13 @@
 import { pool } from "../config/db.js";
+
+const checkIfBodyExist = async (req, res, next) => {
+  if (req.body === undefined) {
+    return res
+      .status(400)
+      .send({ message: "Please provide all required data!" });
+  }
+  next();
+};
 const checkRegistrationData = async (req, res, next) => {
   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -8,13 +17,15 @@ const checkRegistrationData = async (req, res, next) => {
       (elem) => elem === undefined || elem.trim() === "",
     )
   ) {
-    res.status(400).send({ message: "Please provide all required data!" });
+    return res
+      .status(400)
+      .send({ message: "Please provide all required data!" });
   }
   if (!emailRegex.test(email)) {
-    res.status(400).send({ message: "Please provide valid email" });
+    return res.status(400).send({ message: "Please provide valid email" });
   }
   if (!passwordRegex.test(password)) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Invalid password",
       requirements: [
         "Minimum 8 characters",
@@ -25,10 +36,10 @@ const checkRegistrationData = async (req, res, next) => {
     });
   }
   if (Number(age) < 5 || Number(age) > 99) {
-    res.status(400).send({ message: "Please provide valid age" });
+    return res.status(400).send({ message: "Please provide valid age" });
   }
   if (!Number(age)) {
-    res.status(400).send({ message: "Age must be a number" });
+    return res.status(400).send({ message: "Age must be a number" });
   }
   try {
     const result = await pool.query(
@@ -36,12 +47,23 @@ const checkRegistrationData = async (req, res, next) => {
       [email],
     );
     if (result.rowCount > 0) {
-      res.status(400).send({ message: "Email already exists" });
+      return res.status(400).send({ message: "Email already exists" });
     }
   } catch (error) {
     console.log("ERROR", error);
   }
   next();
 };
+const noEmailPasswordCheck = async (req, res, next) => {
+  const { email, password } = req.body;
 
-export { checkRegistrationData };
+  const data = [email, password];
+
+  if (data.some((el) => el === undefined || el.trim() === "")) {
+    return res
+      .status(400)
+      .send({ message: "Please provide email and password!" });
+  }
+  next();
+};
+export { checkIfBodyExist, checkRegistrationData, noEmailPasswordCheck };

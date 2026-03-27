@@ -13,4 +13,15 @@ export const UserModel = {
       console.log("ERROR", error);
     }
   },
+  findByEmail: async (email) => {
+    try {
+      const query = `
+        SELECT password FROM users WHERE email = ($1)
+      `;
+      const result = pool.query(query, [email]);
+      return result;
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+  },
 };
