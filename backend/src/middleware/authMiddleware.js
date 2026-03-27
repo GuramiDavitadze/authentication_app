@@ -71,7 +71,7 @@ const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer")) {
     return res
-      .satatus(400)
+      .status(400)
       .send({ message: "Access Denied. No token provided." });
   }
   const token = authHeader.split(" ")[1];
