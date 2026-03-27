@@ -25,4 +25,15 @@ export const UserModel = {
       console.log("ERROR", error);
     }
   },
+  findById: async (id) => {
+    try {
+      const query = `
+        SELECT id,firstname,lastname,email,age FROM users WHERE id = ($1)
+      `;
+      const result = await pool.query(query, [id]);
+      return result;
+    } catch (error) {
+      console.log("ERROR", error);
+    }
+  },
 };

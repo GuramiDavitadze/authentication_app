@@ -39,4 +39,10 @@ const findByEmailController = async (req, res) => {
   });
 };
 
-export { createUserController, findByEmailController };
+const findByIdController = async (req, res) => {
+  const { id } = req.user;
+  const result = await UserModel.findById(id);
+  res.status(200).send({data:result.rows[0]})
+};
+
+export { createUserController, findByEmailController, findByIdController };
