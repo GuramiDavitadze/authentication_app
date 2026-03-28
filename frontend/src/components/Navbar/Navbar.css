@@ -1,0 +1,41 @@
+.nav {
+  width: 100%;
+  padding: 10px 0;
+  box-shadow: 1px 0 15px 5px rgb(238, 238, 238);
+  margin-bottom: 10px;
+  .nav-bar-container {
+    width: var(--primary-width);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      text-decoration: underline;
+      font-style: italic;
+      color: rgb(94, 37, 37);
+    }
+    .links {
+      display: flex;
+      gap: 20px;
+      a {
+        text-decoration: none;
+        color: var(--primary-text-color);
+        font-size: 1.1rem;
+        position: relative;
+        &.active::after {
+          content: "";
+          position: absolute;
+          display: block;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: var(--primary-text-color);
+        }
+      }
+    }
+  }
+}
