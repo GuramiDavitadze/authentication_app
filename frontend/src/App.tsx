@@ -1,8 +1,11 @@
+import { BrowserRouter as Router } from "react-router-dom";
+import Routers from "./Routers/Routers";
+
 function App() {
   return (
-    <>
-      <h1>Hello World From Frontend</h1>
-    </>
+    <Router basename="">
+      <Routers />
+    </Router>
   );
 }
 
