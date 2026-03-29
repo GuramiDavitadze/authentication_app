@@ -4,7 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "src/schemas/authSchema";
 import Input from "src/components/Input/Input";
 import Button from "../Components/AuthButton/Button.styles";
+import { useCreateUser } from "src/hooks/ApiHooks";
 const Signup = () => {
+  const { mutate: mutateCreateUser } = useCreateUser();
   const {
     register,
     handleSubmit,
@@ -13,7 +15,7 @@ const Signup = () => {
     resolver: zodResolver(signupSchema),
   });
   const onSubmit = (data: any) => {
-    console.log(data);
+    mutateCreateUser(data);
   };
   return (
     <AuthLayout title="Sign Up">

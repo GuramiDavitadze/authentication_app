@@ -14,7 +14,7 @@ export const signupSchema = loginSchema
   .extend({
     firstname: z.string().min(2, "first name is too short"),
     lastname: z.string().min(2, "Last name is too short"),
-    age: z
+    age: z.coerce
       .number()
       .min(5, "Age is out of range!")
       .max(80, "Age is out of range!"),
