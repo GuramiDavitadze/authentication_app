@@ -4,7 +4,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "src/components/Input/Input";
 import Button from "../Components/AuthButton/Button.styles";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "src/hooks/AuthHooks";
 const Login = () => {
+  const { login } = useAuthContext();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,6 +18,8 @@ const Login = () => {
   });
   const onSubmit = (data: any) => {
     console.log(data);
+    login();
+    navigate("/profile");
   };
   return (
     <div>
