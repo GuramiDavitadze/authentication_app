@@ -15,6 +15,5 @@ export const createUser = async (user: UserTypes) => {
 };
 export const login = async (user: LoginDataTypes) => {
   const response = await api.post("/auth", user);
-  console.log(response.data);
   return response.data;
 };

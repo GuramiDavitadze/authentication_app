@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { createUser, login } from "src/features/services/users";
+import { useAuthContext } from "./AuthHooks";
 
 export const useCreateUser = () => {
   const navigate = useNavigate();
@@ -18,14 +19,12 @@ export const useCreateUser = () => {
 
 export const useAuthUser = () => {
   const navigate = useNavigate();
-
+  const { setUser } = useAuthContext();
   return useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setUser(data.data);
       navigate("/profile");
-    },
-    onError: (error) => {
-      console.log(error.message);
     },
   });
 };

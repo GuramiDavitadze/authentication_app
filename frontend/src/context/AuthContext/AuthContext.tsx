@@ -13,7 +13,8 @@ export type AuthContextType = {
   user: User | null;
   isAuth: boolean;
   isLoading: boolean;
-  login: () => void;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -21,19 +22,12 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 const AuthProvider = ({ children }: AuthProviderProp) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const isAuth = !!user;
-  const login = () => {
-    setUser({
-      id: "1",
-      firstname: "Gurami",
-      lastname: "Das",
-      age: 12,
-      email: "Gsafda@gmail.com",
-    });
-  };
   return (
-    <AuthContext.Provider value={{ user, login, isAuth, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, setUser, isAuth, isLoading, setIsLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
