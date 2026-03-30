@@ -1,0 +1,25 @@
+{
+  "name": "authentication",
+  "version": "1.0.0",
+  "description": "test app",
+  "homepage": "https://github.com/GuramiDavitadze/authentication_app#readme",
+  "bugs": {
+    "url": "https://github.com/GuramiDavitadze/authentication_app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuramiDavitadze/authentication_app.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev:frontend": "npm start -w frontend",
+    "dev:backend": "npm start -w backend",
+    "dev": "concurrently \"npm start:frontend\" \"npm start:backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
