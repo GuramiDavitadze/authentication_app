@@ -6,6 +6,7 @@ import Input from "src/components/Input/Input";
 import Button from "../Components/AuthButton/Button.styles";
 import { useAuthUser } from "src/hooks/ApiHooks";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 const Login = () => {
   const { mutate: userAuthMutate, isPending } = useAuthUser();
   const queryClient = useQueryClient();
@@ -53,6 +54,10 @@ const Login = () => {
             Sign In
           </Button>
         </form>
+        <hr />
+        <p className="no-account">
+          No account? <Link to="/signup">Sign Up</Link>
+        </p>
       </AuthLayout>
     </div>
   );

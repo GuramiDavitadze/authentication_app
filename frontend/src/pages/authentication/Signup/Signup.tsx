@@ -5,6 +5,7 @@ import { signupSchema } from "src/schemas/authSchema";
 import Input from "src/components/Input/Input";
 import Button from "../Components/AuthButton/Button.styles";
 import { useCreateUser } from "src/hooks/ApiHooks";
+import { Link } from "react-router-dom";
 const Signup = () => {
   const { mutate: mutateCreateUser } = useCreateUser();
   const {
@@ -64,6 +65,10 @@ const Signup = () => {
         />
         <Button type="submit">Sign Up</Button>
       </form>
+      <hr />
+      <p className="no-account">
+        Do you have account? <Link to="/login">Log in</Link>
+      </p>
     </AuthLayout>
   );
 };
