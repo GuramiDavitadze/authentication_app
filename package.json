@@ -18,8 +18,5 @@
     "dev:frontend": "npm start -w frontend",
     "dev:backend": "npm start -w backend",
     "dev": "concurrently \"npm start:frontend\" \"npm start:backend\""
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
   }
 }
