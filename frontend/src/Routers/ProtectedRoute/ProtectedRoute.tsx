@@ -1,14 +1,20 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthContext } from "src/hooks/AuthHooks";
-const ProtectedRoute = () => {
-  const { isAuth, isLoading } = useAuthContext();
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (!isAuth) {
+const AuthProtectedRoute = () => {
+  const { user } = useAuthContext();
+
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
   return <Outlet />;
 };
 
-export default ProtectedRoute;
+export const NoAuthProtectedRoute = () => {
+  const { user } = useAuthContext();
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+  return <Outlet />;
+};
+export default AuthProtectedRoute;

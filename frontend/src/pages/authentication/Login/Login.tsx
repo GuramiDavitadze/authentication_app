@@ -5,11 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "src/components/Input/Input";
 import Button from "../Components/AuthButton/Button.styles";
 import { useAuthUser } from "src/hooks/ApiHooks";
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 const Login = () => {
-  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
-
   const { mutate: userAuthMutate, isPending } = useAuthUser();
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -19,10 +18,12 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
   const onSubmit = (data: any) => {
-    setIsRedirecting(true);
     userAuthMutate(data, {
-      onSettled: () => {
-        setIsRedirecting(false);
+      onSuccess: (data) => {
+        localStorage.setItem("jwt_token", data.token);
+        queryClient.setQueryData(["auth"], {
+          data: data.data,
+        });
       },
       onError: (error: any) => {
         const message = error.response?.data?.message || "Login failed";
@@ -31,7 +32,6 @@ const Login = () => {
       },
     });
   };
-  if (isRedirecting || isPending) return <div>Loading... 3</div>;
   return (
     <div>
       <AuthLayout title="Login">

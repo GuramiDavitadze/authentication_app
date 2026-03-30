@@ -17,3 +17,12 @@ export const login = async (user: LoginDataTypes) => {
   const response = await api.post("/auth", user);
   return response.data;
 };
+
+export const loginByToken = async (token: string) => {
+  const response = await api.get("/profile", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
