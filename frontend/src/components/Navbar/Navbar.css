@@ -37,5 +37,16 @@
         }
       }
     }
+    .logout-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.317);
+      padding: 2px 15px;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
   }
 }
