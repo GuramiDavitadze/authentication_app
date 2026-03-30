@@ -4,7 +4,7 @@ import { useAuthContext } from "src/hooks/AuthHooks";
 import { IoIosLogOut } from "react-icons/io";
 
 const Navbar = () => {
-  const { user } = useAuthContext();
+  const { user, handleLogout } = useAuthContext();
   return (
     <nav className="nav">
       <div className="nav-bar-container">
@@ -21,7 +21,7 @@ const Navbar = () => {
           ) : (
             <>
               <NavLink to="/profile">profile</NavLink>
-              <button className="logout-btn">
+              <button className="logout-btn" onClick={handleLogout}>
                 <IoIosLogOut />
               </button>
             </>

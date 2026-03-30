@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { createContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import FullScreenLoader from "src/components/FullScreenLoader/FullScreenLoader";
 import { useAuthByToken } from "src/hooks/ApiHooks";
 type AuthProviderProp = {
@@ -15,6 +16,7 @@ interface User {
 export type AuthContextType = {
   user: User | null;
   isLoading: boolean;
+  handleLogout: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -22,6 +24,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 const AuthProvider = ({ children }: AuthProviderProp) => {
   const { data, isLoading, isError } = useAuthByToken();
+  const navigate = useNavigate();
   const user = data?.data ?? null;
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -29,14 +32,19 @@ const AuthProvider = ({ children }: AuthProviderProp) => {
       localStorage.removeItem("jwt_token");
       queryClient.removeQueries({ queryKey: ["auth"] });
     }
-  }, [isError,queryClient]);
+  }, [isError, queryClient]);
+  const handleLogout = () => {
+    localStorage.removeItem("jwt_token");
+    queryClient.removeQueries({ queryKey: ["auth"] });
+    navigate("/login");
+  };
   const hasToken = !!localStorage.getItem("jwt_token");
   const shouldShowLoader = hasToken && isLoading;
   if (shouldShowLoader) {
     return <FullScreenLoader />;
   }
   return (
-    <AuthContext.Provider value={{ user, isLoading }}>
+    <AuthContext.Provider value={{ user, isLoading, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );
